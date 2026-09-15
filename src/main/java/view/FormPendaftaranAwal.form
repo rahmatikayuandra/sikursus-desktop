@@ -204,6 +204,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Reset"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnResetActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnProcess">
       <Properties>
@@ -216,6 +219,9 @@
         <Property name="text" type="java.lang.String" value="Process"/>
         <Property name="autoscrolls" type="boolean" value="true"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnProcessActionPerformed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
       <Properties>

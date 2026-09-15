@@ -6,6 +6,8 @@ public class FormPendaftaranAwal extends javax.swing.JFrame {
     }
 
     @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">
+    // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -75,11 +77,21 @@ public class FormPendaftaranAwal extends javax.swing.JFrame {
         btnReset.setBackground(new java.awt.Color(201, 125, 125));
         btnReset.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         btnReset.setText("Reset");
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetActionPerformed(evt);
+            }
+        });
 
         btnProcess.setBackground(new java.awt.Color(125, 201, 139));
         btnProcess.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         btnProcess.setText("Process");
         btnProcess.setAutoscrolls(true);
+        btnProcess.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProcessActionPerformed(evt);
+            }
+        });
 
         jScrollPane1.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
 
@@ -170,6 +182,132 @@ public class FormPendaftaranAwal extends javax.swing.JFrame {
     private void cmbKursusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbKursusActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbKursusActionPerformed
+
+    private void btnProcessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcessActionPerformed
+        // Mengambil nama
+        String nama = txtNama.getText().trim();
+
+        // Validasi nama
+        if (nama.isEmpty() || nama.equalsIgnoreCase("Nama")) {
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "Nama peserta harus diisi!",
+                    "Peringatan",
+                    javax.swing.JOptionPane.WARNING_MESSAGE
+            );
+
+            txtNama.requestFocus();
+            return;
+        }
+
+        int biaya;
+        int jumlah;
+
+        // =========================
+        // VALIDASI BIAYA
+        // =========================
+        try {
+            biaya = Integer.parseInt(txtBiaya.getText().trim());
+        } catch (NumberFormatException e) {
+
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "Biaya Kursus harus berupa angka integer!\n"
+                    + "Contoh: 150000",
+                    "Biaya Tidak Valid",
+                    javax.swing.JOptionPane.WARNING_MESSAGE
+            );
+
+            txtBiaya.requestFocus();
+            return;
+        }
+
+        // Validasi biaya tidak boleh negatif
+        if (biaya < 0) {
+
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "Biaya Kursus tidak boleh kurang dari 0!",
+                    "Biaya Tidak Valid",
+                    javax.swing.JOptionPane.WARNING_MESSAGE
+            );
+
+            txtBiaya.requestFocus();
+            return;
+        }
+
+        // =========================
+        // VALIDASI JUMLAH
+        // =========================
+        try {
+            jumlah = Integer.parseInt(txtJumlah.getText().trim());
+        } catch (NumberFormatException e) {
+
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "Jumlah harus berupa angka integer!\n"
+                    + "Contoh: 2",
+                    "Jumlah Tidak Valid",
+                    javax.swing.JOptionPane.WARNING_MESSAGE
+            );
+
+            txtJumlah.requestFocus();
+            return;
+        }
+
+        // Validasi jumlah
+        if (jumlah <= 0) {
+
+            javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    "Jumlah harus lebih dari 0!",
+                    "Jumlah Tidak Valid",
+                    javax.swing.JOptionPane.WARNING_MESSAGE
+            );
+
+            txtJumlah.requestFocus();
+            return;
+        }
+
+        // =========================
+        // MENGAMBIL DATA KURSUS
+        // =========================
+        String kursus = cmbKursus.getSelectedItem().toString();
+
+        // =========================
+        // MENGHITUNG TOTAL
+        // =========================
+        int totalHarga = biaya * jumlah;
+
+        // =========================
+        // MENAMPILKAN HASIL
+        // =========================
+        txtHasil.setText(
+                "INFORMASI PENDAFTARAN\n"
+                + "==============================\n"
+                + "Nama Peserta : " + nama + "\n"
+                + "Biaya Kursus : Rp " + biaya + "\n"
+                + "Jumlah       : " + jumlah + "\n"
+                + "Pilih Kursus : " + kursus + "\n"
+                + "Total Harga  : Rp " + totalHarga
+        );
+
+    }//GEN-LAST:event_btnProcessActionPerformed
+
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+        txtNama.setText("");
+        txtBiaya.setText("");
+        txtJumlah.setText("");
+
+        // Mengembalikan pilihan kursus ke pilihan pertama
+        cmbKursus.setSelectedIndex(0);
+
+        // Menghapus hasil
+        txtHasil.setText("");
+
+        // Cursor kembali ke Nama
+        txtNama.requestFocus();
+    }//GEN-LAST:event_btnResetActionPerformed
 
     public static void main(String args[]) {
         try {
