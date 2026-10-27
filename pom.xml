@@ -5,11 +5,15 @@
     <artifactId>sikursus-desktop</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
+    
+<properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+
+    <netbeans.installation>C:/Program Files/NetBeans 8.2</netbeans.installation>
+</properties>
+
         <repositories>
         <repository>
             <id>central-https</id>
@@ -33,11 +37,32 @@
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
-        <dependencies>
-                <dependency>
-                        <groupId>unknown.binary</groupId>
-                        <artifactId>AbsoluteLayout</artifactId>
-                        <version>SNAPSHOT</version>
-                </dependency>
-        </dependencies>
+<dependencies>
+
+    <!-- Library AbsoluteLayout untuk tampilan form -->
+    
+<!-- Library AbsoluteLayout untuk tampilan form -->
+
+<dependency>
+    <groupId>org.netbeans.external</groupId>
+    <artifactId>AbsoluteLayout</artifactId>
+    <version>RELEASE82</version>
+    <scope>system</scope>
+    <systemPath>${netbeans.installation}/java/modules/ext/AbsoluteLayout.jar</systemPath>
+</dependency>
+
+
+
+    <!-- Driver MySQL untuk koneksi database -->
+    <dependency>
+        <groupId>com.mysql</groupId>
+        <artifactId>mysql-connector-j</artifactId>
+        <version>8.4.0</version>
+    </dependency>
+    <dependency>
+        <groupId>unknown.binary</groupId>
+        <artifactId>AbsoluteLayout</artifactId>
+      <version>SNAPSHOT</version>
+    </dependency>
+</dependencies>
 </project>

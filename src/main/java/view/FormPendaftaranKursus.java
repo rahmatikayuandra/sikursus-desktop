@@ -1,4 +1,6 @@
 package view;
+import dao.PesertaDAO;
+import model.Peserta;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -59,7 +61,7 @@ public FormPendaftaranKursus() {
     txtRingkasan.setEditable(false);
     txtRingkasan.setLineWrap(false);
 
-    getRootPane().setDefaultButton(btnProses);
+    getRootPane().setDefaultButton(btnSimpan);
 
     setMinimumSize(new Dimension(760, 650));
     setSize(new Dimension(920, 720));
@@ -204,6 +206,7 @@ public FormPendaftaranKursus() {
     private void initComponents() {
 
         groupJenis = new javax.swing.ButtonGroup();
+        buttonGroup3 = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         txtNama = new javax.swing.JTextField();
         txtKodeAkses = new javax.swing.JPasswordField();
@@ -215,7 +218,7 @@ public FormPendaftaranKursus() {
         cbRekaman = new javax.swing.JCheckBox();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtRingkasan = new javax.swing.JTextArea();
-        btnProses = new javax.swing.JButton();
+        btnSimpan = new javax.swing.JButton();
         btnReset = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -223,6 +226,18 @@ public FormPendaftaranKursus() {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
+        txtNim = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        rbLaki = new javax.swing.JRadioButton();
+        rbPerempuan = new javax.swing.JRadioButton();
+        jLabel9 = new javax.swing.JLabel();
+        txtProdi = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        txtNoHp = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        txtEmail = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        btnProses1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -230,50 +245,50 @@ public FormPendaftaranKursus() {
         jLabel1.setFont(new java.awt.Font("Lucida Sans", 1, 16)); // NOI18N
         jLabel1.setText("FORM PENDAFTARAN KURSUS");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 10, -1, -1));
-        getContentPane().add(txtNama, new org.netbeans.lib.awtextra.AbsoluteConstraints(156, 49, 440, -1));
-        getContentPane().add(txtKodeAkses, new org.netbeans.lib.awtextra.AbsoluteConstraints(156, 80, 440, -1));
+        getContentPane().add(txtNama, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 90, 440, -1));
+        getContentPane().add(txtKodeAkses, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 240, 440, -1));
 
         groupJenis.add(rbMahasiswa);
         rbMahasiswa.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         rbMahasiswa.setText("Mahasiswa");
-        getContentPane().add(rbMahasiswa, new org.netbeans.lib.awtextra.AbsoluteConstraints(156, 107, -1, -1));
+        getContentPane().add(rbMahasiswa, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 270, -1, -1));
 
         groupJenis.add(rbUmum);
         rbUmum.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         rbUmum.setText("Umum");
-        getContentPane().add(rbUmum, new org.netbeans.lib.awtextra.AbsoluteConstraints(267, 108, -1, -1));
+        getContentPane().add(rbUmum, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 270, -1, -1));
 
         cmbKursus.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         cmbKursus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Java", "Data Science", "UI/UX" }));
-        getContentPane().add(cmbKursus, new org.netbeans.lib.awtextra.AbsoluteConstraints(156, 139, -1, -1));
+        getContentPane().add(cmbKursus, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 300, -1, -1));
 
         cbModul.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         cbModul.setText("Modul Cetak");
-        getContentPane().add(cbModul, new org.netbeans.lib.awtextra.AbsoluteConstraints(156, 168, -1, -1));
+        getContentPane().add(cbModul, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 330, -1, -1));
 
         cbSertifikat.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         cbSertifikat.setText("Sertifikat");
-        getContentPane().add(cbSertifikat, new org.netbeans.lib.awtextra.AbsoluteConstraints(267, 168, -1, -1));
+        getContentPane().add(cbSertifikat, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 330, -1, -1));
 
         cbRekaman.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         cbRekaman.setText("Akses Rekaman");
-        getContentPane().add(cbRekaman, new org.netbeans.lib.awtextra.AbsoluteConstraints(356, 168, -1, -1));
+        getContentPane().add(cbRekaman, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 330, -1, -1));
 
         txtRingkasan.setColumns(20);
         txtRingkasan.setRows(5);
         jScrollPane1.setViewportView(txtRingkasan);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(156, 200, 440, 260));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 360, 440, 260));
 
-        btnProses.setBackground(new java.awt.Color(0, 204, 51));
-        btnProses.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnProses.setText("Proses");
-        btnProses.addActionListener(new java.awt.event.ActionListener() {
+        btnSimpan.setBackground(new java.awt.Color(0, 0, 0));
+        btnSimpan.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnSimpan.setText("Simpan ke database");
+        btnSimpan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnProsesActionPerformed(evt);
+                btnSimpanActionPerformed(evt);
             }
         });
-        getContentPane().add(btnProses, new org.netbeans.lib.awtextra.AbsoluteConstraints(156, 478, -1, -1));
+        getContentPane().add(btnSimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 640, -1, -1));
 
         btnReset.setBackground(new java.awt.Color(255, 0, 0));
         btnReset.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -283,41 +298,165 @@ public FormPendaftaranKursus() {
                 btnResetActionPerformed(evt);
             }
         });
-        getContentPane().add(btnReset, new org.netbeans.lib.awtextra.AbsoluteConstraints(241, 478, -1, -1));
+        getContentPane().add(btnReset, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 640, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel2.setText("Kode Akses");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(35, 81, -1, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 240, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel3.setText("Nama Peserta");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(35, 50, -1, -1));
+        jLabel3.setText("NIM");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel4.setText("Kursus");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(35, 142, -1, -1));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 300, -1, -1));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel5.setText("Jenis Peserta");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(35, 111, -1, -1));
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, -1, -1));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel6.setText("Fasilitas");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(35, 172, -1, -1));
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 330, -1, -1));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel7.setText("Ringkasan");
-        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(35, 200, -1, -1));
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 360, -1, -1));
+
+        txtNim.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNimActionPerformed(evt);
+            }
+        });
+        getContentPane().add(txtNim, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 60, 440, -1));
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel8.setText("Email");
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 210, -1, -1));
+
+        buttonGroup3.add(rbLaki);
+        rbLaki.setText("Laki-laki");
+        getContentPane().add(rbLaki, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 120, -1, -1));
+
+        buttonGroup3.add(rbPerempuan);
+        rbPerempuan.setText("Perempuan");
+        rbPerempuan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbPerempuanActionPerformed(evt);
+            }
+        });
+        getContentPane().add(rbPerempuan, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 120, -1, -1));
+
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel9.setText("Nama Peserta");
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, -1, -1));
+        getContentPane().add(txtProdi, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 150, 440, -1));
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel10.setText("Jenis Kelamin");
+        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, -1, -1));
+        getContentPane().add(txtNoHp, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 180, 440, -1));
+
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel11.setText("Program Studi");
+        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, -1, -1));
+        getContentPane().add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 210, 440, -1));
+
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel12.setText("Nomor HP");
+        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, -1, -1));
+
+        btnProses1.setBackground(new java.awt.Color(0, 204, 51));
+        btnProses1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnProses1.setText("Proses");
+        btnProses1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProses1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnProses1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 640, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnProsesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProsesActionPerformed
-         if (!validasiInput()) {
-            return;
-        }
+    private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
 
-        String nama = txtNama.getText().trim();
+    String nim = txtNim.getText().trim();
+    String nama = txtNama.getText().trim();
+    String prodi = txtProdi.getText().trim();
+    String noHp = txtNoHp.getText().trim();
+    String email = txtEmail.getText().trim();
+
+    String jenisKelamin = "";
+
+    if (rbLaki.isSelected()) {
+        jenisKelamin = "L";
+    } else if (rbPerempuan.isSelected()) {
+        jenisKelamin = "P";
+    }
+
+    // Validasi input wajib
+    if (nim.isEmpty() || nama.isEmpty()
+            || prodi.isEmpty() || jenisKelamin.isEmpty()) {
+
+        javax.swing.JOptionPane.showMessageDialog(
+                this,
+                "NIM, nama, jenis kelamin, dan prodi wajib diisi.",
+                "Validasi",
+                javax.swing.JOptionPane.WARNING_MESSAGE
+        );
+        return;
+    }
+
+    
+    // Membuat objek peserta
+    model.Peserta peserta = new model.Peserta(
+        0,              // ID awal, sesuaikan dengan pengelolaan ID database
+        nama,
+        noHp,
+        nim,
+        jenisKelamin,
+        prodi,
+        email
+    );
+
+    // Menyimpan data ke database
+    PesertaDAO dao = new PesertaDAO();
+
+    try {
+        boolean berhasil = dao.insert(peserta);
+
+        if (berhasil) {
+            JOptionPane.showMessageDialog(
+                this,
+                "Data peserta berhasil disimpan.",
+                "Berhasil",
+                JOptionPane.INFORMATION_MESSAGE
+            );
+
+            clearForm();
+        } else {
+            JOptionPane.showMessageDialog(
+                this,
+                "Data peserta tidak berhasil disimpan.",
+                "Informasi",
+                JOptionPane.WARNING_MESSAGE
+            );
+        }
+    } catch (java.sql.SQLException e) {
+        JOptionPane.showMessageDialog(
+            this,
+            "Gagal menyimpan data:\n" + e.getMessage(),
+            "Database Error",
+            JOptionPane.ERROR_MESSAGE
+        );
+
+        e.printStackTrace();
+    }
+
+
+
         String jenis = getJenisPeserta();
         String kursus = cmbKursus.getSelectedItem().toString();
 
@@ -349,7 +488,7 @@ public FormPendaftaranKursus() {
                 "Berhasil",
                 JOptionPane.INFORMATION_MESSAGE);
     // TODO add your handling code here:
-    }//GEN-LAST:event_btnProsesActionPerformed
+    }//GEN-LAST:event_btnSimpanActionPerformed
 
     private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
         int jawab = JOptionPane.showConfirmDialog(
@@ -362,6 +501,18 @@ public FormPendaftaranKursus() {
             resetForm();
         }
     }//GEN-LAST:event_btnResetActionPerformed
+
+    private void txtNimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNimActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNimActionPerformed
+
+    private void rbPerempuanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbPerempuanActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rbPerempuanActionPerformed
+
+    private void btnProses1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProses1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnProses1ActionPerformed
 
     private void resetForm() {
         txtNama.setText("");
@@ -400,27 +551,50 @@ public FormPendaftaranKursus() {
             }
         });
     }
+    
+    private void clearForm() {
+    txtNim.setText("");
+    txtNama.setText("");
+    buttonGroup3.clearSelection();
+    txtProdi.setText("");
+    txtNoHp.setText("");
+    txtEmail.setText("");
+    txtNim.requestFocus();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnProses;
+    private javax.swing.JButton btnProses1;
     private javax.swing.JButton btnReset;
+    private javax.swing.JButton btnSimpan;
+    private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.JCheckBox cbModul;
     private javax.swing.JCheckBox cbRekaman;
     private javax.swing.JCheckBox cbSertifikat;
     private javax.swing.JComboBox<String> cmbKursus;
     private javax.swing.ButtonGroup groupJenis;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JRadioButton rbLaki;
     private javax.swing.JRadioButton rbMahasiswa;
+    private javax.swing.JRadioButton rbPerempuan;
     private javax.swing.JRadioButton rbUmum;
+    private javax.swing.JTextField txtEmail;
     private javax.swing.JPasswordField txtKodeAkses;
     private javax.swing.JTextField txtNama;
+    private javax.swing.JTextField txtNim;
+    private javax.swing.JTextField txtNoHp;
+    private javax.swing.JTextField txtProdi;
     private javax.swing.JTextArea txtRingkasan;
     // End of variables declaration//GEN-END:variables
 }
