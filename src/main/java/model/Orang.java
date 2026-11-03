@@ -5,6 +5,14 @@ public class Orang {
     private String nama;
     private String noHp;
 
+    // Constructor kosong
+    public Orang() {
+        this.id = 0;
+        this.nama = "";
+        this.noHp = "";
+    }
+
+    // Constructor lengkap
     public Orang(int id, String nama, String noHp) {
         setId(id);
         setNama(nama);

@@ -1,12 +1,14 @@
+
 package model;
 
 public class Peserta extends Orang {
+
     private String nim;
     private String jenisKelamin;
     private String prodi;
     private String email;
 
-    // Constructor lengkap (dipakai FormPendaftaranKursus)
+    // Constructor lengkap
     public Peserta(int id, String nama, String noHp, String nim,
                    String jenisKelamin, String prodi, String email) {
         super(id, nama, noHp);
@@ -16,9 +18,19 @@ public class Peserta extends Orang {
         setEmail(email);
     }
 
-    // Constructor lama, tetap ada supaya kode lain tidak rusak
-    public Peserta(int id, String nama, String noHp, String nim, String prodi) {
+    // Constructor lama
+    public Peserta(int id, String nama, String noHp,
+                   String nim, String prodi) {
         this(id, nama, noHp, nim, "", prodi, "");
+    }
+
+    // Constructor kosong untuk DAO
+    public Peserta() {
+        super();
+        this.nim = "";
+        this.jenisKelamin = "";
+        this.prodi = "";
+        this.email = "";
     }
 
     public String getNim() {
@@ -41,10 +53,15 @@ public class Peserta extends Orang {
             this.jenisKelamin = "";
             return;
         }
+
         String jk = jenisKelamin.trim().toUpperCase();
+
         if (!jk.equals("L") && !jk.equals("P")) {
-            throw new IllegalArgumentException("Jenis kelamin harus L atau P");
+            throw new IllegalArgumentException(
+                "Jenis kelamin harus L atau P"
+            );
         }
+
         this.jenisKelamin = jk;
     }
 

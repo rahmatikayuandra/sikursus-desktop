@@ -27,6 +27,9 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableModel;
+import java.util.List;
+import java.sql.SQLException;
 
 public class FormPendaftaranKursus extends javax.swing.JFrame {
 
@@ -34,7 +37,9 @@ public class FormPendaftaranKursus extends javax.swing.JFrame {
     private final Color warnaHeader = new Color(0, 102, 204);
     private final Color warnaProses = new Color(0, 102, 153);
     private final Color warnaReset = new Color(255, 51, 51);
-
+    private final PesertaDAO dao = new PesertaDAO();
+    private int selectedId = -1;
+    
     private JPanel panelUtama;
     private JPanel panelHeader;
     private JPanel panelForm;
@@ -55,6 +60,52 @@ public class FormPendaftaranKursus extends javax.swing.JFrame {
 public FormPendaftaranKursus() {
     initComponents();
 
+    configureTable();
+loadTable();
+clearForm();
+
+tblPeserta.getSelectionModel().addListSelectionListener(e -> {
+    if (!e.getValueIsAdjusting()) {
+        int row = tblPeserta.getSelectedRow();
+
+        if (row == -1) {
+            return;
+        }
+
+        selectedId = Integer.parseInt(
+            tblPeserta.getValueAt(row, 0).toString()
+        );
+
+        txtNim.setText(
+            tblPeserta.getValueAt(row, 1).toString()
+        );
+
+        txtNama.setText(
+            tblPeserta.getValueAt(row, 2).toString()
+        );
+
+        String jk = tblPeserta.getValueAt(row, 3).toString();
+
+        rbLaki.setSelected("L".equals(jk));
+        rbPerempuan.setSelected("P".equals(jk));
+
+        txtProdi.setText(
+            tblPeserta.getValueAt(row, 4).toString()
+        );
+
+        txtNoHp.setText(
+            tblPeserta.getValueAt(row, 5).toString()
+        );
+
+        txtEmail.setText(
+            tblPeserta.getValueAt(row, 6).toString()
+        );
+
+        btnUbah.setEnabled(true);
+        btnHapus.setEnabled(true);
+    }
+});
+
     groupJenis.add(rbMahasiswa);
     groupJenis.add(rbUmum);
 
@@ -64,9 +115,8 @@ public FormPendaftaranKursus() {
     getRootPane().setDefaultButton(btnSimpan);
 
     setMinimumSize(new Dimension(760, 650));
-    setSize(new Dimension(920, 720));
+    setSize(new Dimension(920, 950));
     setLocationRelativeTo(null);
-
 }
 
     
@@ -237,14 +287,22 @@ public FormPendaftaranKursus() {
         jLabel11 = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        btnProses1 = new javax.swing.JButton();
+        btnHapus = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tblPeserta = new javax.swing.JTable();
+        btnProses = new javax.swing.JButton();
+        btnUbah = new javax.swing.JButton();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        txtCari = new javax.swing.JTextField();
+        btnCari = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Lucida Sans", 1, 16)); // NOI18N
-        jLabel1.setText("FORM PENDAFTARAN KURSUS");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 10, -1, -1));
+        jLabel1.setText("DATA PESERTA");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 730, -1, -1));
         getContentPane().add(txtNama, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 90, 440, -1));
         getContentPane().add(txtKodeAkses, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 240, 440, -1));
 
@@ -288,9 +346,9 @@ public FormPendaftaranKursus() {
                 btnSimpanActionPerformed(evt);
             }
         });
-        getContentPane().add(btnSimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 640, -1, -1));
+        getContentPane().add(btnSimpan, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 680, 150, -1));
 
-        btnReset.setBackground(new java.awt.Color(255, 0, 0));
+        btnReset.setBackground(new java.awt.Color(153, 153, 153));
         btnReset.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnReset.setText("Reset");
         btnReset.addActionListener(new java.awt.event.ActionListener() {
@@ -298,7 +356,7 @@ public FormPendaftaranKursus() {
                 btnResetActionPerformed(evt);
             }
         });
-        getContentPane().add(btnReset, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 640, -1, -1));
+        getContentPane().add(btnReset, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 680, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel2.setText("Kode Akses");
@@ -321,8 +379,8 @@ public FormPendaftaranKursus() {
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 330, -1, -1));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel7.setText("Ringkasan");
-        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 360, -1, -1));
+        jLabel7.setText("Pencarian");
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 770, -1, -1));
 
         txtNim.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -367,15 +425,74 @@ public FormPendaftaranKursus() {
         jLabel12.setText("Nomor HP");
         getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, -1, -1));
 
-        btnProses1.setBackground(new java.awt.Color(0, 204, 51));
-        btnProses1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnProses1.setText("Proses");
-        btnProses1.addActionListener(new java.awt.event.ActionListener() {
+        btnHapus.setBackground(new java.awt.Color(255, 0, 51));
+        btnHapus.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnHapus.setText("Hapus");
+        btnHapus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnProses1ActionPerformed(evt);
+                btnHapusActionPerformed(evt);
             }
         });
-        getContentPane().add(btnProses1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 640, -1, -1));
+        getContentPane().add(btnHapus, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 640, -1, -1));
+
+        jScrollPane3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jScrollPane3MouseClicked(evt);
+            }
+        });
+
+        tblPeserta.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(tblPeserta);
+
+        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 810, 440, 230));
+
+        btnProses.setBackground(new java.awt.Color(0, 204, 51));
+        btnProses.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnProses.setText("Proses");
+        btnProses.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProsesActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnProses, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 640, -1, -1));
+
+        btnUbah.setBackground(new java.awt.Color(0, 51, 255));
+        btnUbah.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnUbah.setText("Ubah");
+        btnUbah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUbahActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnUbah, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 640, 70, -1));
+
+        jLabel13.setFont(new java.awt.Font("Lucida Sans", 1, 16)); // NOI18N
+        jLabel13.setText("FORM PENDAFTARAN KURSUS");
+        getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 10, -1, -1));
+
+        jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel14.setText("Ringkasan");
+        getContentPane().add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 360, -1, -1));
+        getContentPane().add(txtCari, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 770, 160, -1));
+
+        btnCari.setForeground(new java.awt.Color(51, 51, 255));
+        btnCari.setText("Cari");
+        btnCari.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCariActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnCari, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 770, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -436,6 +553,9 @@ public FormPendaftaranKursus() {
             );
 
             clearForm();
+
+            // Refresh tabel setelah menyimpan
+            loadTable();
         } else {
             JOptionPane.showMessageDialog(
                 this,
@@ -510,10 +630,130 @@ public FormPendaftaranKursus() {
         // TODO add your handling code here:
     }//GEN-LAST:event_rbPerempuanActionPerformed
 
-    private void btnProses1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProses1ActionPerformed
+    private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnProses1ActionPerformed
+        if (selectedId <= 0) {
+        JOptionPane.showMessageDialog(
+        this,
+        "Pilih data peserta yang akan dihapus."
+        );
+        return;
+        }
+        String nama = txtNama.getText().trim();
+        int jawab = JOptionPane.showConfirmDialog(
+        this,
+        "Yakin menghapus peserta: " + nama + "?",
+        "Konfirmasi Hapus",
+        JOptionPane.YES_NO_OPTION,
+        JOptionPane.WARNING_MESSAGE
+        );
+        if (jawab != JOptionPane.YES_OPTION) {
+        return;
+        }
+        try {
+        if (dao.delete(selectedId)) {
+        JOptionPane.showMessageDialog(
+        this,
+        "Data peserta berhasil dihapus."
+        );
+        refreshData();
+        }
+        } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(
+        this,
+        "Gagal menghapus data: " + ex.getMessage(),
+        "Database Error",
+        JOptionPane.ERROR_MESSAGE
+        );
+        }
+    }//GEN-LAST:event_btnHapusActionPerformed
 
+    private void jScrollPane3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane3MouseClicked
+        // TODO add your handling code here:
+        int row = tblPeserta.getSelectedRow();
+        if (row == -1) {
+        return;
+        }
+        selectedId = Integer.parseInt(
+        tblPeserta.getValueAt(row, 0).toString()
+        );
+        txtNim.setText(tblPeserta.getValueAt(row, 1).toString());
+        txtNama.setText(tblPeserta.getValueAt(row, 2).toString());
+        String jk = tblPeserta.getValueAt(row, 3).toString();
+        rbLaki.setSelected("L".equals(jk));
+        rbPerempuan.setSelected("P".equals(jk));
+        txtProdi.setText(tblPeserta.getValueAt(row, 4).toString());
+        txtNoHp.setText(tblPeserta.getValueAt(row, 5).toString());
+        txtEmail.setText(tblPeserta.getValueAt(row, 6).toString());
+        btnUbah.setEnabled(true);
+        btnHapus.setEnabled(true);
+    }//GEN-LAST:event_jScrollPane3MouseClicked
+
+    private void btnProsesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProsesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnProsesActionPerformed
+
+    private void btnUbahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUbahActionPerformed
+        // TODO add your handling code here:
+        if (selectedId <= 0) {
+        JOptionPane.showMessageDialog(
+        this,
+        "Pilih data peserta pada tabel terlebih dahulu."
+        );
+        return;
+        }
+        if (!validateForm()) {
+        return;
+        }
+        try {
+        Peserta p = getFormData();
+        if (dao.update(p)) {
+        JOptionPane.showMessageDialog(
+        this,
+        "Data peserta berhasil diubah."
+        );
+        refreshData();
+        } else {
+        JOptionPane.showMessageDialog(
+        this,
+        "Data tidak ditemukan atau tidak berubah."
+        );
+        }
+        } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(
+        this,
+        "Gagal mengubah data: " + ex.getMessage(),
+        "Database Error",
+        JOptionPane.ERROR_MESSAGE
+        );
+        }
+    }//GEN-LAST:event_btnUbahActionPerformed
+
+    private void btnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariActionPerformed
+        // TODO add your handling code here:
+        String keyword = txtCari.getText().trim();
+        try {
+        if (keyword.isEmpty()) {
+        loadTable();
+        } else {
+        fillTable(dao.search(keyword));
+        }
+        } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(
+        this,
+        "Pencarian gagal: " + ex.getMessage(),
+        "Database Error",
+        JOptionPane.ERROR_MESSAGE
+        );
+        }
+    }//GEN-LAST:event_btnCariActionPerformed
+
+    private void refreshData() {
+        loadTable();
+        clearForm();
+        txtCari.setText("");
+    }
+    
     private void resetForm() {
         txtNama.setText("");
         txtKodeAkses.setText("");
@@ -524,6 +764,10 @@ public FormPendaftaranKursus() {
         cbRekaman.setSelected(false);
         txtRingkasan.setText("");
         txtNama.requestFocus();
+        
+        txtCari.setText("");
+        loadTable();
+        clearForm();
     }
     
     private String formatRupiah(double nilai) {
@@ -553,6 +797,8 @@ public FormPendaftaranKursus() {
     }
     
     private void clearForm() {
+    
+    selectedId = -1;
     txtNim.setText("");
     txtNama.setText("");
     buttonGroup3.clearSelection();
@@ -560,12 +806,148 @@ public FormPendaftaranKursus() {
     txtNoHp.setText("");
     txtEmail.setText("");
     txtNim.requestFocus();
+    tblPeserta.clearSelection();
+    btnUbah.setEnabled(false);
+    btnHapus.setEnabled(false);
+    }
+    
+    private String getJenisKelamin() {
+    if (rbLaki.isSelected()) {
+        return "L";
     }
 
+    if (rbPerempuan.isSelected()) {
+        return "P";
+    }
+
+    return null;
+    }
+    
+    private Peserta getFormData() {
+
+    Peserta p = new Peserta();
+
+    p.setId(selectedId);
+    p.setNim(txtNim.getText().trim());
+    p.setNama(txtNama.getText().trim());
+    p.setJenisKelamin(getJenisKelamin());
+    p.setProdi(txtProdi.getText().trim());
+    p.setNoHp(txtNoHp.getText().trim());
+    p.setEmail(txtEmail.getText().trim());
+
+    return p;
+    }
+    
+    private boolean validateForm() {
+
+    if (txtNim.getText().trim().isEmpty()
+            || txtNama.getText().trim().isEmpty()
+            || txtProdi.getText().trim().isEmpty()) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "NIM, Nama, dan Prodi wajib diisi."
+        );
+
+        return false;
+    }
+
+    if (getJenisKelamin() == null) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Pilih jenis kelamin."
+        );
+
+        return false;
+    }
+
+    return true;
+    }
+    
+    private void configureTable() {
+
+    DefaultTableModel model = new DefaultTableModel(
+        new Object[]{
+            "ID", "NIM", "Nama", "JK",
+            "Prodi", "No. HP", "Email"
+        },
+        0
+    ) {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
+
+    tblPeserta.setModel(model);
+
+    tblPeserta.setSelectionMode(
+        javax.swing.ListSelectionModel.SINGLE_SELECTION
+    );
+    }
+    
+    private void fillTable(List<Peserta> data) {
+    DefaultTableModel model =
+    (DefaultTableModel) tblPeserta.getModel();
+    model.setRowCount(0);
+    for (Peserta p : data) {
+    model.addRow(new Object[]{
+    p.getId(),
+    p.getNim(),
+    p.getNama(),
+    p.getJenisKelamin(),
+    p.getProdi(),
+    p.getNoHp(),
+    p.getEmail()
+    });
+    }
+    }
+    
+    private void loadTable() {
+
+    DefaultTableModel model =
+            (DefaultTableModel) tblPeserta.getModel();
+
+    model.setRowCount(0);
+
+    try {
+        PesertaDAO dao = new PesertaDAO();
+
+        List<Peserta> daftar = dao.findAll();
+
+        for (Peserta p : daftar) {
+            model.addRow(new Object[]{
+                p.getId(),
+                p.getNim(),
+                p.getNama(),
+                p.getJenisKelamin(),
+                p.getProdi(),
+                p.getNoHp(),
+                p.getEmail()
+            });
+        }
+
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(
+                this,
+                "Gagal memuat data peserta: " + e.getMessage(),
+                "Database Error",
+                JOptionPane.ERROR_MESSAGE
+        );
+
+        e.printStackTrace();
+    }
+    }
+    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnProses1;
+    private javax.swing.JButton btnCari;
+    private javax.swing.JButton btnHapus;
+    private javax.swing.JButton btnProses;
     private javax.swing.JButton btnReset;
     private javax.swing.JButton btnSimpan;
+    private javax.swing.JButton btnUbah;
     private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.JCheckBox cbModul;
     private javax.swing.JCheckBox cbRekaman;
@@ -576,6 +958,8 @@ public FormPendaftaranKursus() {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -585,10 +969,13 @@ public FormPendaftaranKursus() {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JRadioButton rbLaki;
     private javax.swing.JRadioButton rbMahasiswa;
     private javax.swing.JRadioButton rbPerempuan;
     private javax.swing.JRadioButton rbUmum;
+    private javax.swing.JTable tblPeserta;
+    private javax.swing.JTextField txtCari;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JPasswordField txtKodeAkses;
     private javax.swing.JTextField txtNama;
