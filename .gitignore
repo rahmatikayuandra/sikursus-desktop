@@ -1,0 +1,16 @@
+# Java build output
+target/
+build/
+dist/
+nbbuild/
+nbdist/
+
+# NetBeans
+nbproject/private/
+
+# macOS
+.DS_Store
+
+# IntelliJ IDEA
+.idea/
+*.iml
